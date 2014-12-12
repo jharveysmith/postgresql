@@ -14,7 +14,7 @@ default['postgresql']['wal_e'] = {
     argparse
     boto
   ),
-  git_version: 'v0.6.9',
+  git_version: 'v0.7.3',
   env_dir: '/etc/wal-e',
   aws_access_key: nil,
   aws_secret_key: nil,

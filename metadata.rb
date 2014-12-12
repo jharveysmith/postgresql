@@ -14,6 +14,8 @@ recipe            "postgresql::server", "Installs postgresql server packages, te
 recipe            "postgresql::server_redhat", "Installs postgresql server packages, redhat family style"
 recipe            "postgresql::server_debian", "Installs postgresql server packages, debian family style"
 recipe            "postgresql::wal-e", "Installs wal-e S3 backup process for postgres"
+recipe            "postgresql::wal-e_archive", "Set up wal-e archiving."
+recipe            "postgresql::wal-e_recovery", "Restore postgres use wal-e."
 
 %w{ubuntu debian fedora suse amazon}.each do |os|
   supports os
