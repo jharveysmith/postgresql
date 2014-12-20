@@ -15,7 +15,7 @@ end
 action :delete do
   if current_resource.exists?
     converge_by("Remove #{current_resource}") do
-      file current_resource.path do
+      file current_resource.path do #~FC009
         action :delete
         recursive true
       end
