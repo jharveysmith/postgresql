@@ -3,8 +3,8 @@
 # Recipe:: wal-e_recovery
 
 # only install the wal-e entry if we have recovery mode turned on and wal-e enabled
-if (node['postgresql']['recovery']||{})['wal_e'] && node['postgresql']['wal_e']['enabled']
-  include_recipe 'wal-e'
+if (node['postgresql']['recovery'] || {})['wal_e'] && node['postgresql']['wal_e']['enabled']
+  include_recipe 'postgresql::wal-e'
   Chef::Log.info("Set up our wal-e based recovery file.")
 
   # Save these in variables.
@@ -30,11 +30,10 @@ if (node['postgresql']['recovery']||{})['wal_e'] && node['postgresql']['wal_e'][
   )
   template recover_file do
     source "recovery.conf.erb"
-    variables({
-      config: {
-        restore_command: "envdir #{env_dir} wal-e wal-fetch \"%f\" \"%p\""
-      }.merge(node['postgresql']['recovery']['config'])
-    })
+    variables config: {
+      restore_command: "envdir #{env_dir} wal-e wal-fetch \"%f\" \"%p\""
+    }.merge(node['postgresql']['recovery']['config'])
+
     notifies :restart, 'service[postgresql]', :delayed
   end
 

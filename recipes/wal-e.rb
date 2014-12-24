@@ -61,7 +61,7 @@ if node['postgresql']['wal_e']['enabled']
     notifies :run, "bash[install_wal_e]"
   end
 
-  postgresql_wal_e_envdir "#{node['postgresql']['wal_e']['env_dir']}" do
+  postgresql_wal_e_envdir node['postgresql']['wal_e']['env_dir'] do
     user    myuser
     group   mygroup
   end

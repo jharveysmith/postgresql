@@ -12,7 +12,8 @@ if node['postgresql']['config']['archive_mode'] && node['postgresql']['wal_e']['
   mygroup = node['postgresql']['wal_e']['group']
 
   # override our archive command
-  node.default['postgresql']['config']['archive_command'] = "/usr/bin/envdir #{node['postgresql']['wal_e']['env_dir']} /usr/local/bin/wal-e wal-push %p"
+  node.default['postgresql']['config']['archive_command'] =
+    "/usr/bin/envdir #{node['postgresql']['wal_e']['env_dir']} /usr/local/bin/wal-e wal-push %p"
   node.default['postgresql']['config']['archive_timeout'] = 60
   node.set['postgresql']['shared_archive'] = nil
 
@@ -23,7 +24,10 @@ if node['postgresql']['config']['archive_mode'] && node['postgresql']['wal_e']['
       bb_cron['flock_cmd'],   # This can be empty
       bb_cron['timeout_cmd'], # This can be empty
       # The cron command always contains the following.
-      "/usr/bin/envdir #{node['postgresql']['wal_e']['env_dir']} /usr/local/bin/wal-e backup-push #{node['postgresql']['config']['data_directory']}"
+      "/usr/bin/envdir",
+      node['postgresql']['wal_e']['env_dir'],
+      "/usr/local/bin/wal-e backup-push",
+      node['postgresql']['config']['data_directory']
     ].join(' ').strip
 
     # If we want to log this, ensure the log dir exists.
