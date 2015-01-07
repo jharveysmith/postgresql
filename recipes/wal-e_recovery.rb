@@ -18,7 +18,7 @@ if (node['postgresql']['recovery'] || {})['wal_e'] && node['postgresql']['wal_e'
   env_dir = node['postgresql']['recovery']['env_dir'] ||
     node['postgresql']['wal_e']['env_dir'] + "_recovery"
 
-  postgresql_wal_e_endir env_dir do
+  postgresql_wal_e_envdir env_dir do
     user  myuser
     group mygroup
     s3path node['postgresql']['recovery']['s3path']
