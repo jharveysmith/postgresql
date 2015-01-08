@@ -1,5 +1,6 @@
 # env_dir: /etc/recovery_env.d
 # s3path: s3path from which to recover
+# All values are single quoted by the template.
 default['postgresql']['recovery'] = {
   wal_e: false,
   config: {
