@@ -3,28 +3,19 @@ def whyrun_supported?
 end
 
 action :create do
-  if new_resource.exists?
-    Chef::Log.info("'#{new_resource}' already exists, nothing to do.")
-  else
-    converge_by("Create #{new_resource}") do
-      create_envdir
-    end
+  converge_by("Create #{new_resource}") do
+    create_envdir
   end
 end
 
 action :delete do
-  if new_resource.exists?
-    converge_by("Remove #{new_resource}") do
-      file new_resource.path do #~FC009
-        action :delete
-        recursive true
-      end
+  converge_by("Remove #{new_resource}") do
+    file new_resource.path do #~FC009
+      action :delete
+      recursive true
     end
-  else
-    Chef::Log.info("'#{new_resource}' doesn't exist, nothing to do.")
   end
 end
-
 
 def create_envdir
   mypath = new_resource.path
