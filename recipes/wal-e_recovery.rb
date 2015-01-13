@@ -5,7 +5,10 @@
 # only install the wal-e entry if we have recovery mode turned on and wal-e enabled
 if (node['postgresql']['recovery'] || {})['wal_e'] && node['postgresql']['wal_e']['enabled']
   include_recipe 'postgresql::wal-e'
-  Chef::Log.info("Set up our wal-e based recovery file.")
+  Chef::Log.info(
+    "Set up our wal-e based recovery file.  " +
+    "This is destructive to '#{node['postgresql']['config']['data_directory']}'"
+  )
 
   # Save these in variables.
   myuser  = node['postgresql']['recovery']['user'] ||
@@ -22,6 +25,17 @@ if (node['postgresql']['recovery'] || {})['wal_e'] && node['postgresql']['wal_e'
     user  myuser
     group mygroup
     s3path node['postgresql']['recovery']['s3path']
+  end
+
+  # Destroy the existing data_directory and restore from our basebackup.
+  bash "restory_catalog-service_basebackup" do
+    cwd "/"
+    user  myuser
+    group mygroup
+    command <<-EOH
+      rm -rf #{node['postgresql']['config']['data_directory']}/*
+      envdir #{env_dir} /usr/local/bin/wal-e backup-fetch #{node['postgresql']['config']['data_directory']} #{node['postgresql']['recovery']['base_backup_target']}
+    EOH
   end
 
   recover_file = File.join(
