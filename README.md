@@ -399,10 +399,8 @@ to pick up recent [PGDG repo packages](http://yum.postgresql.org/repopackages.ph
 wal-e
 -----
 
-Enables wal-e backup to S3.  Taken from the wal-e cookbook and added here.
+Taken from the wal-e cookbook and added here.
 Installs wal-e from git along with its dependancies.
-Adds a weekly cronjob to perform basebackups plus sets the archive command
-to enable WAL shipping.
 
 Requires the following attributes be set:
   node['postgresql']['config']['archive\_mode']
@@ -423,6 +421,19 @@ Optional:
     node['postgresql']['wal_e']['s3_bucket'] if it doesn't already exist.
 
 This recipe can be combined with server or server\_streaming\_master
+
+wal-e\_archive
+--------------
+
+Enables wal-e archiving.  Requires wal-e above.
+Adds a weekly cronjob to perform basebackups plus sets the archive command
+to enable WAL shipping.  See attributes/wal-e.rb
+
+wal-e\_restore
+--------------
+
+Enables recovery from a wal-e backup.
+Requires wal-e above.  See attributes/recovery.rb
 
 
 Resources/Providers

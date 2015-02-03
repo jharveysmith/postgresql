@@ -19,6 +19,7 @@
 # limitations under the License.
 #
 
+include_recipe "postgresql::set_attr"
 include_recipe "postgresql::client"
 
 # Create a group and user like the package will.

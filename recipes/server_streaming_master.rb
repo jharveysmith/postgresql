@@ -18,6 +18,8 @@
 # limitations under the License.
 #
 
+include_recipe "postgresql::set_attr"
+
 if node['postgresql']['version'].to_f < 9.3
   Chef::Log.fatal("Streaming replication requires postgresql 9.3 or greater and
     you have configured #{node['postgresql']['version']}.  Bail.")

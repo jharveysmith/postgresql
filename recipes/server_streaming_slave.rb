@@ -18,6 +18,8 @@
 # limitations under the License.
 #
 
+include_recipe "postgresql::set_attr"
+
 # ensure that the master host (or IP) is set.
 # or else to what are we a slave?
 missing_attrs = %w{
