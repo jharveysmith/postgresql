@@ -30,7 +30,7 @@ def create_envdir
       "s3://" + node['postgresql']['wal_e']['s3_path']
     else
       "s3://#{node['postgresql']['wal_e']['s3_bucket']}/#{node['postgresql']['wal_e']['bkp_folder']}"
-    end
+  end
   myuser  = node['postgresql']['wal_e']['user']
   mygroup = node['postgresql']['wal_e']['group']
 
@@ -47,7 +47,7 @@ def create_envdir
   end
 
   vars.each do |key, value|
-    file ::File.join(mypath,key) do
+    file ::File.join(mypath, key) do
       content value
       user    myuser
       group   mygroup

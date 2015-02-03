@@ -34,7 +34,9 @@ if (node['postgresql']['recovery'] || {})['wal_e'] && node['postgresql']['wal_e'
     group mygroup
     command <<-EOH
       rm -rf #{node['postgresql']['config']['data_directory']}/*
-      envdir #{env_dir} /usr/local/bin/wal-e backup-fetch #{node['postgresql']['config']['data_directory']} #{node['postgresql']['recovery']['base_backup_target']}
+      envdir #{env_dir} /usr/local/bin/wal-e backup-fetch \
+        #{node['postgresql']['config']['data_directory']} \
+        #{node['postgresql']['recovery']['base_backup_target']}
     EOH
   end
 
