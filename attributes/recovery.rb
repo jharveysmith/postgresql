@@ -3,6 +3,7 @@
 # All values are single quoted by the template.
 default['postgresql']['recovery'] = {
   wal_e: false,
+  base_backup_target: "LATEST",
   config: {
     "#restore_command"            => " ''           # e.g. 'cp /mnt/server/archivedir/%f %p'",
     "#archive_cleanup_command"    => "''",
