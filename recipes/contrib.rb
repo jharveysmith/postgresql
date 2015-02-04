@@ -15,6 +15,8 @@
 # limitations under the License.
 #
 
+include_recipe "postgresql::set_attr"
+
 include_recipe "postgresql::server"
 
 # Install the PostgreSQL contrib package(s) from the distribution,

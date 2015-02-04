@@ -2,6 +2,8 @@
 # Cookbook Name:: postgresql
 # Recipe:: wal-e
 
+include_recipe "postgresql::set_attr"
+
 # only install the wal-e entry if we have archive mode turned on and wal-e enabled
 if node['postgresql']['wal_e']['enabled']
   Chef::Log.info("install wal-e postgres log shipper")

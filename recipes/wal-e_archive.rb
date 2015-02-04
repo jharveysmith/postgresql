@@ -2,6 +2,8 @@
 # Cookbook Name:: postgresql
 # Recipe:: wal-e_archive
 
+include_recipe "postgresql::set_attr"
+
 # only install the wal-e entry if we have archive mode turned on and wal-e enabled
 if node['postgresql']['config']['archive_mode'] && node['postgresql']['wal_e']['enabled']
   include_recipe 'postgresql::wal-e'

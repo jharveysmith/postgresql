@@ -17,4 +17,5 @@
 # limitations under the License.
 #
 
+include_recipe "postgresql::set_attr"
 include_recipe "postgresql::client"

@@ -3,6 +3,8 @@
 # Recipe:: wal-e_recovery
 
 # only install the wal-e entry if we have recovery mode turned on and wal-e enabled
+include_recipe "postgresql::set_attr"
+
 if (node['postgresql']['recovery'] || {})['wal_e'] && node['postgresql']['wal_e']['enabled']
   include_recipe 'postgresql::wal-e'
   Chef::Log.info(

@@ -3,6 +3,7 @@ if not %w(etch lenny lucid precise sid squeeze wheezy trusty).include? node['lsb
 end
 
 include_recipe 'apt'
+include_recipe "postgresql::set_attr"
 
 file "remove deprecated Pitti PPA apt repository" do
   action :delete
