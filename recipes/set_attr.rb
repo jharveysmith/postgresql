@@ -207,3 +207,15 @@ when 'rhel', 'fedora', 'suse'
   node.default['postgresql']['config']['lc_time'] = 'en_US.UTF-8'
   node.default['postgresql']['config']['default_text_search_config'] = 'pg_catalog.english'
 end
+
+
+# Dynamic aggragate wal_e attributes, the rest are in attributes/wal-e.rb
+node.default['postgresql']['wal_e']['bkp_folder'] =
+  node['hostname'] + '-pq-' + ( node['postgresql']['version'] || '-unknown' ).to_s
+
+# Dynamic aggragate streaming attributes, the rest are in attributes/streaming.rb
+# this defaults to the config's port value
+node.default['postgresql']['streaming']['master']['port'] = node['postgresql']['config']['port']
+# archive command for streaming.
+node.default['postgresql']['streaming']['master']['config']['archive_command'] =
+  "test ! -f #{node['postgresql']['archive_path']}/%f && cp %p #{node['postgresql']['archive_path']}/%f"
