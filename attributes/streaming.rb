@@ -3,16 +3,13 @@
 default['postgresql']['archive_path'] = '/share/psql/archive'
 default['postgresql']['streaming'] = {
   master: {
-    # this defaults to the config's port value
-    port: node['postgresql']['config']['port'],
     # default config for streaming.
     config: {
       wal_level: "hot_standby",
       listen_addresses: '*',
       max_wal_senders: 5,
       wal_keep_segments: 32,
-      archive_mode: true,
-      archive_command: "test ! -f #{node['postgresql']['archive_path']}/%f && cp %p #{node['postgresql']['archive_path']}/%f",
+      archive_mode: true
     },
   # pg_hba additions
     pg_hba: [ {:type => 'host', :db => 'replication', :user => 'all', :addr => '0.0.0.0/0', :method => 'trust'} ]

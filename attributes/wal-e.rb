@@ -19,7 +19,6 @@ default['postgresql']['wal_e'] = {
   aws_access_key: nil,
   aws_secret_key: nil,
   s3_bucket: nil,
-  bkp_folder: node['hostname'] + '-pq-' + ( node['postgresql']['version'] || '-unknown' ).to_s,
   base_backup: {
     minute: '0',
     hour: '0',
