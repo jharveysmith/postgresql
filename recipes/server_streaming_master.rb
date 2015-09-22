@@ -34,10 +34,11 @@ node.default['postgresql']['pg_hba'] +=
 
 include_recipe 'postgresql::server'
 
-directory node['postgresql']['shared_archive'] do
-  owner "postgres"
-  group "postgres"
-  mode 00755
-  action :create
-  only_if { node['postgresql']['shared_archive'] }
+unless node['postgresql']['shared_archive'].nil?
+  directory node['postgresql']['shared_archive'] do
+    owner "postgres"
+    group "postgres"
+    mode 00755
+    action :create
+   end
 end
