@@ -2,12 +2,12 @@
 driver_plugin: vagrant
 driver_config:
   require_chef_omnibus: true
-
+  version: 11.18.12
 platforms:
 - name: ubuntu-12.04
   driver_config:
-    box: opscode-ubuntu-12.04
-    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box
+    box: precise64_15gb_r2.1.5_c11.18.6-1
+    box_url: http://static.clearstorydatainc.com/precise64_15gb_r2.1.5_c11.18.6-1.box
   run_list:
   - recipe[apt]
 
@@ -78,6 +78,35 @@ suites:
   - recipe[minitest-handler]
   attributes: {}
 
+- name: server-streaming-master
+  run_list:
+  - recipe[postgresql::ruby]
+  - recipe[minitest-handler]
+  - recipe[postgresql::server_streaming_master]
+  attributes:
+    postgresql:
+      version: "9.4"
+      config:
+        ssl: false
+      password:
+        postgres: "iloverandompasswordsbutthiswilldo"
+
+- name: server-streaming-slave
+  run_list:
+  - recipe[postgresql::ruby]
+  - recipe[minitest-handler]
+  - recipe[postgresql::server_streaming_slave]
+  attributes:
+    postgresql:
+      streaming:
+        master:
+          host: 10.0.2.2
+          port: 15432
+      version: 9.4
+      config:
+        ssl: false
+      password:
+        postgres: "iloverandompasswordsbutthiswilldo"
 - name: server
   run_list:
   - recipe[postgresql::ruby]
@@ -85,6 +114,7 @@ suites:
   - recipe[postgresql::server]
   attributes:
     postgresql:
+      version: 9.4
       password:
         postgres: "iloverandompasswordsbutthiswilldo"
 
