@@ -29,8 +29,9 @@ node['postgresql']['streaming']['master']['config'].each do |k,v|
   node.default['postgresql']['config'][k] = v
 end
 
-node.default['postgresql']['pg_hba'] +=
-  node['postgresql']['streaming']['master']['pg_hba']
+pg_hba = node['postgresql']['pg_hba'] + node['postgresql']['streaming']['master']['pg_hba'] 
+
+node.override['postgresql']['pg_hba'] = pg_hba
 
 include_recipe 'postgresql::server'
 
