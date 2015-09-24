@@ -41,7 +41,7 @@ end
 
 if node['postgresql']['streaming'].attribute?('slave') && node['postgresql']['streaming']['slave'].attribute?('config')
   node['postgresql']['streaming']['slave']['config'].each do |k,v|
-    node.default['postgresql']['config'][k] = v
+    node.override['postgresql']['config'][k] = v
   end
 end
 

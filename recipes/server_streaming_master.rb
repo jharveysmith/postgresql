@@ -26,7 +26,7 @@ if node['postgresql']['version'].to_f < 9.3
 end
 
 node['postgresql']['streaming']['master']['config'].each do |k,v|
-  node.default['postgresql']['config'][k] = v
+  node.override['postgresql']['config'][k] = v
 end
 
 pg_hba = node['postgresql']['pg_hba'] + node['postgresql']['streaming']['master']['pg_hba'] 
