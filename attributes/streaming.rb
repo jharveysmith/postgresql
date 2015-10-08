@@ -20,5 +20,5 @@ default['postgresql']['streaming'] = {
       listen_addresses: '*',
       hot_standby: true,
     },
-  },
+  }
 }

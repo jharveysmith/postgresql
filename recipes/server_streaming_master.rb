@@ -43,3 +43,12 @@ unless node['postgresql']['shared_archive'].nil?
     action :create
    end
 end
+
+unless node['postgresql']['archive_path'].nil?
+  directory node['postgresql']['archive_path'] do
+    owner "postgres"
+    group "postgres"
+    mode 00755
+    action :create
+   end
+end
