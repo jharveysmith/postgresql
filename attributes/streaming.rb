@@ -19,6 +19,6 @@ default['postgresql']['streaming'] = {
       # listen on all addresses so we can load balance
       listen_addresses: '*',
       hot_standby: true,
-    },
+    }
   }
 }
