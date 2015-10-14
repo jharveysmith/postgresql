@@ -26,6 +26,11 @@ if (node['postgresql']['recovery'] || {})['wal_e'] && node['postgresql']['wal_e'
   postgresql_wal_e_envdir env_dir do
     user  myuser
     group mygroup
+    access node['postgresql']['recovery']['aws_access_key'] ||
+      node['postgresql']['wal_e']['aws_access_key']
+    secret node['postgresql']['recovery']['aws_secret_key'] ||
+      node['postgresql']['wal_e']['aws_secret_key']
+
     s3path node['postgresql']['recovery']['s3path']
   end
 
