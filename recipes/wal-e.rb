@@ -8,18 +8,6 @@ include_recipe "postgresql::set_attr"
 if node['postgresql']['wal_e']['enabled']
   Chef::Log.info("install wal-e postgres log shipper")
 
-  missing_attrs = %w{
-    aws_access_key
-    aws_secret_key
-    s3_bucket
-  }.select do |attr|
-    node['postgresql']['wal_e'][attr].nil?
-  end.map { |attr| "node['postgresql']['wal_e']['#{attr}']" }
-
-  if missing_attrs.any?
-    Chef::Application.fatal!( "You must set #{missing_attrs.join(', ')}.")
-  end
-
   # Save these in variables.
   myuser  = node['postgresql']['wal_e']['user']
   mygroup = node['postgresql']['wal_e']['group']

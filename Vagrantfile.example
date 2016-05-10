@@ -10,7 +10,7 @@ chef_json = {
     password: {
       postgres: "howdy"
     },
-    version: 9.3,
+    version: 9.5,
     config: {
       # this seems to be required off for now
       ssl: false,
@@ -63,7 +63,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       chef.add_recipe( "postgresql::server_streaming_master" )
       chef.add_recipe( "postgresql::wal-e" )
       json = chef_json.dup
-      json[:postgresql][:pg_hba] << {type: 'host', db: 'replication', user: 'all', addr: '192.168.7.31/30', method: 'trust'}
+      json[:postgresql][:pg_hba] << {
+        type: 'host',
+        db: 'replication',
+        user: 'all',
+        addr: '192.168.7.31/30',
+        method: 'trust'
+      }
       chef.json = json
     end
   end
