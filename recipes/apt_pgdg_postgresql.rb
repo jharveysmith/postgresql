@@ -1,4 +1,4 @@
-if not %w(etch lenny lucid precise sid squeeze wheezy trusty).include? node['lsb']['codename'] 
+unless %w(etch lenny lucid precise sid squeeze wheezy trusty utopic wily xenial).include?(node['lsb']['codename'])
   raise "Not supported release by PGDG apt repository"
 end
 
