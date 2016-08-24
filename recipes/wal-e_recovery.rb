@@ -39,9 +39,9 @@ if (node['postgresql']['recovery'] || {})['wal_e'] && node['postgresql']['wal_e'
     source "pg_restore.sh.erb"
     user root
     group root
-    variables {
+    variables (
       envdir: env_dir,
       datadir: node['postgresql']['config']['data_directory']
-    }
+    )
   end
 end
