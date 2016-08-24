@@ -229,7 +229,6 @@ end
 #######
 # Checkpoint-related parameters that affect transaction rate and
 # maximum tolerable recovery playback time.
-
 # (6) checkpoint_segments
 #     Sets the maximum distance in log segments between automatic WAL checkpoints.
 checkpoint_segments =
@@ -240,7 +239,12 @@ checkpoint_segments =
   "desktop" => 3
 }.fetch(db_type)
 
-node.default['postgresql']['config']['checkpoint_segments'] = checkpoint_segments
+if node['postgresql']['version'].to_f < 9.5
+  # This are removed in 9.5
+  node.default['postgresql']['config']['checkpoint_segments'] = checkpoint_segments
+else
+  node.default['postgresql']['config']['max_wal_size'] = "#{3 * checkpoint_segments * 16}MB"
+end
 
 # (7) checkpoint_completion_target
 #     Time spent flushing dirty buffers during checkpoint, as fraction

@@ -34,32 +34,13 @@ if (node['postgresql']['recovery'] || {})['wal_e'] && node['postgresql']['wal_e'
     s3path node['postgresql']['recovery']['s3path']
   end
 
-  # Destroy the existing data_directory and restore from our basebackup.
-  bash "restory_catalog-service_basebackup" do
-    cwd "/"
-    user  myuser
-    group mygroup
-    command <<-EOH
-      rm -rf #{node['postgresql']['config']['data_directory']}/*
-      envdir #{env_dir} /usr/local/bin/wal-e backup-fetch \
-        #{node['postgresql']['config']['data_directory']} \
-        #{node['postgresql']['recovery']['base_backup_target']}
-    EOH
+  # Create a restore script
+  template '/usr/local/sbin/pg_restore.sh' do
+    source "pg_restore.sh.erb"
+    mode      0700
+    user root
+    group root
+    variables envdir: env_dir,
+              datadir: node['postgresql']['config']['data_directory']
   end
-
-  recover_file = File.join(
-    node['postgresql']['config']['data_directory'],
-    "recovery.conf"
-  )
-  template recover_file do
-    source "recovery.conf.erb"
-    user myuser
-    group mygroup
-    variables config: {
-      restore_command: "envdir #{env_dir} /usr/local/bin/wal-e wal-fetch \"%f\" \"%p\""
-    }.merge(node['postgresql']['recovery']['config'])
-
-    notifies :restart, 'service[postgresql]', :delayed
-  end
-
 end
