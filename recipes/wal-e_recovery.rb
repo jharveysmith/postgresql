@@ -37,10 +37,10 @@ if (node['postgresql']['recovery'] || {})['wal_e'] && node['postgresql']['wal_e'
   # Create a restore script
   template '/usr/local/sbin/pg_restore.sh' do
     source "pg_restore.sh.erb"
+    mode      0700
     user root
     group root
-    variables
-      envdir: env_dir,
-      datadir: node['postgresql']['config']['data_directory']
+    variables envdir: env_dir,
+              datadir: node['postgresql']['config']['data_directory']
   end
 end
