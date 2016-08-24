@@ -2,7 +2,6 @@ use_inline_resources
 
 action :create do
   converge_by("Create #{new_resource}") do
-    create_envdir
     mypath = new_resource.path
     access = new_resource.access || node['postgresql']['wal_e']['aws_access_key']
     secret = new_resource.secret || node['postgresql']['wal_e']['aws_secret_key']
