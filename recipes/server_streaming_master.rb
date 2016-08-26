@@ -35,18 +35,20 @@ node.override['postgresql']['pg_hba'] = pg_hba
 
 include_recipe 'postgresql::server'
 
-directory node['postgresql']['shared_archive'] do
-  owner "postgres"
-  group "postgres"
-  mode 00755
-  action :create
-  only_if ! node['postgresql']['shared_archive'].nil?
+unless node['postgresql']['shared_archive'].nil? # ~FC023
+  directory node['postgresql']['shared_archive'] do
+    owner "postgres"
+    group "postgres"
+    mode 00755
+    action :create
+  end
 end
 
-directory node['postgresql']['archive_path'] do
-  owner "postgres"
-  group "postgres"
-  mode 00755
-  action :create
-  only_if ! node['postgresql']['archive_path'].nil?
+unless node['postgresql']['archive_path'].nil? # ~FC023
+  directory node['postgresql']['archive_path'] do
+    owner "postgres"
+    group "postgres"
+    mode 00755
+    action :create
+  end
 end
