@@ -6,7 +6,7 @@
 
 echo 
 echo "This script needs to be run as root."
-echo "This script will destroy all data in <%= @envdir %>!"
+echo "This script will destroy all data in <%= @datadir %>!"
 echo
 
 set -x
@@ -35,7 +35,7 @@ then
   echo "Failed to run base backup-fetch for postgresql!  Exiting."
   exit 1
 fi
-echo restore_command = 'envdir <%= @envdir %> /usr/local/bin/wal-e wal-fetch "%f" "%p"' | sudo -u postgres tee ${psql_dir}/recovery.conf
+echo "restore_command = 'envdir <%= @envdir %> /usr/local/bin/wal-e wal-fetch \"%f\" \"%p\"'" | sudo -u postgres tee ${psql_dir}/recovery.conf
 echo "Restart postgres to begin restoring remaining WAL files (This will take some time to complete)"
 /etc/init.d/postgresql start
 if [ $? -ne 0 ]
