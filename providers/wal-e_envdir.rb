@@ -7,6 +7,7 @@ action :create do
     secret = new_resource.secret || node['postgresql']['wal_e']['aws_secret_key']
     myuser = new_resource.user   || node['postgresql']['wal_e']['user']
     mygroup = new_resource.group || node['postgresql']['wal_e']['group']
+    region = new_resource.region || node['postgresql']['wal_e']['aws_region'] || 'us-east-1'
 
     s3path = case
              when new_resource.s3path
@@ -22,7 +23,8 @@ action :create do
     vars = {
       'AWS_ACCESS_KEY_ID'     => access,
       'AWS_SECRET_ACCESS_KEY' => secret,
-      'WALE_S3_PREFIX'        => s3path
+      'WALE_S3_PREFIX'        => s3path,
+      'AWS_REGION'            => region
     }
 
     directory mypath do
