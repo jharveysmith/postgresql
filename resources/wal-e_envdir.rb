@@ -8,3 +8,4 @@ attribute :secret,  kind_of: String
 attribute :path,    kind_of: String, name_attribute: true, required: true
 attribute :user,    kind_of: String
 attribute :group,   kind_of: String
+attribute :region,  kind_of: String
