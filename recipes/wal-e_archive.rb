@@ -14,8 +14,9 @@ if node['postgresql']['config']['archive_mode'] && node['postgresql']['wal_e']['
   mygroup = node['postgresql']['wal_e']['group']
 
   # override our archive command
+  cmd_base = "/usr/bin/envdir #{node['postgresql']['wal_e']['env_dir']} /usr/local/bin/wal-e"
   node.override['postgresql']['config']['archive_command'] =
-    "/usr/bin/envdir #{node['postgresql']['wal_e']['env_dir']} /usr/local/bin/wal-e wal-push %p"
+    "#{cmd_base} wal-push %p"
   node.override['postgresql']['config']['archive_timeout'] = 60
   node.set['postgresql']['shared_archive'] = nil
 
@@ -57,6 +58,16 @@ if node['postgresql']['config']['archive_mode'] && node['postgresql']['wal_e']['
     cron "wal_e_base_backup" do
       user    myuser
       command cron_cmd
+      minute  bb_cron['minute']
+      hour    bb_cron['hour']
+      day     bb_cron['day']
+      month   bb_cron['month']
+      weekday bb_cron['weekday']
+    end
+
+    cron "wal_e_base_backup_cleanup" do
+      user    myuser
+      command "#{cmd_base} delete --confirm retain #{node['postgresql']['wal_e']['retain']}"
       minute  bb_cron['minute']
       hour    bb_cron['hour']
       day     bb_cron['day']
